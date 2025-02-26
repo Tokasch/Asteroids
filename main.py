@@ -19,6 +19,7 @@ def main():
         player.draw(screen)
         pygame.display.flip()
         dt = fps_clock.tick(60) / 1000
+        player.update(dt)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
