@@ -1,12 +1,20 @@
 import pygame
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS
-from constants import PLAYER_TURN_SPEED
-from constants import PLAYER_SPEED
+from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED
 
-class Player(CircleShape):
+class Player(CircleShape, pygame.sprite.Sprite):
+  
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
+
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.Surface((PLAYER_RADIUS * 2, PLAYER_RADIUS *2), pygame.SRCALPHA)
+        self.image.fill((0, 0, 0, 0))
+
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+
         self.rotation = 0
 
     def triangle(self):
