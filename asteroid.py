@@ -18,8 +18,8 @@ class Asteroid(CircleShape, pygame.sprite.Sprite):
 
     def update(self, dt):
         position_change = self.velocity * dt
-        self.x += position_change.x
-        self.y += position_change.y
+        self.position += position_change
+        self.x, self.y = self.position  
         self.rect.center = (self.x, self.y)
 
         

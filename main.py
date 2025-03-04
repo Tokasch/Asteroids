@@ -2,6 +2,7 @@ import pygame
 pygame.init()
 fps_clock = pygame.time.Clock()
 dt = 0
+import sys
 from constants import *
 from player import Player
 from asteroid import Asteroid
@@ -32,6 +33,12 @@ def main():
         pygame.display.flip()
         dt = fps_clock.tick(60) / 1000
         updatable.update(dt)
+
+        for asteroid in asteroids:
+            if player.collision(asteroid):
+                print("Game over!")
+                sys.exit()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return

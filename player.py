@@ -34,6 +34,7 @@ class Player(CircleShape, pygame.sprite.Sprite):
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
+        self.x, self.y = self.position
     
     def update(self, dt):
         keys = pygame.key.get_pressed()
