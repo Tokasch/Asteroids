@@ -16,6 +16,9 @@ def main():
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
 
+    all_sprites = pygame.sprite.Group()
+    asteroids_group= pygame.sprite.Group()
+
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
@@ -23,7 +26,7 @@ def main():
 
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
-    AsteroidField.containers = (updatable)
+    AsteroidField.containers = updatable
     Shot.containers = (shots, updatable, drawable)
 
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
@@ -42,6 +45,12 @@ def main():
                 print("Game over!")
                 sys.exit()
 
+        for asteroid in list(asteroids):  # Create a copy of the list to safely modify during iteration
+            for bullet in list(shots):
+                if bullet.collision(asteroid):
+                    asteroid.kill()  # This should remove from all groups
+                    bullet.kill()
+                    
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
