@@ -48,7 +48,7 @@ def main():
         for asteroid in list(asteroids):  # Create a copy of the list to safely modify during iteration
             for bullet in list(shots):
                 if bullet.collision(asteroid):
-                    asteroid.kill()  # This should remove from all groups
+                    asteroid.split()  # This should remove from all groups
                     bullet.kill()
                     
         for event in pygame.event.get():
