@@ -1,5 +1,6 @@
 import pygame
 pygame.init()
+pygame.font.init()
 fps_clock = pygame.time.Clock()
 dt = 0
 import sys
@@ -8,6 +9,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField 
 from shoot import Shot
+
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -31,9 +33,30 @@ def main():
 
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroid_field = AsteroidField()
+    score = 0
+    score_increment = 100
+    high_score = 0
+
+    font = pygame.font.Font('ARIAL.TTF', 48)
+
+    try:
+        with open("highscore.txt", "r") as file:
+            content = file.read().strip()
+            if content:
+                high_score = int(content)
+            else:
+                high_score = 0
+    except FileNotFoundError:
+        high_score = 0
+    
 
     while True:
         screen.fill((0, 0, 0))
+        score_text = font.render(f'Score: {score}', True, (255, 255, 255))
+        screen.blit(score_text, (10, 10))
+        highscore_text = font.render(f"Highscore: {high_score}", True, (255, 255, 255))
+        text_width, _ = font.size(f"High Score: {high_score}")
+        screen.blit(highscore_text, (1280 - text_width - 10, 10))
         for draw_obj in drawable:
             draw_obj.draw(screen)
         pygame.display.flip()
@@ -50,10 +73,15 @@ def main():
                 if bullet.collision(asteroid):
                     asteroid.split()  # This should remove from all groups
                     bullet.kill()
+                    score += score_increment
+                    if score > high_score:
+                        high_score = score
                     
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                with open("highscore.txt", "w") as file:
+                    file.write(str(high_score))
+                sys.exit()
 
 if __name__ == "__main__":
     main()
