@@ -63,7 +63,7 @@ def main():
         dt = fps_clock.tick(60) / 1000
         updatable.update(dt)
 
-        for asteroid in asteroids:
+        for asteroid in asteroids:   # Create collision system with asteroid
             if player.collision(asteroid):
                 print("Game over!")
                 sys.exit()
